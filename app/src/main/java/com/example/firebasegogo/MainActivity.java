@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private Firebase mRef;
     private Button btn;
     private EditText et;
+    private EditText testvar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
