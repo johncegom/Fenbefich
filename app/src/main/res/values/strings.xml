@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Firebasegogo</string>
+    <string name="firsttextview">Name</string>
+    <string name="firstdesc">Description</string>
 </resources>
