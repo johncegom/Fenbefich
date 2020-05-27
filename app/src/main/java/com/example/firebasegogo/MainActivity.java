@@ -12,16 +12,25 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends AppCompatActivity {
     private Button btn;
+    private Button btn2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn = (Button) findViewById(R.id.button);
+        btn2 = (Button) findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent myIntent = new Intent(MainActivity.this, DetailMenu.class);
-                startActivity(myIntent);
+                Intent DrinkIntent = new Intent(MainActivity.this, DetailMenu.class);
+                startActivity(DrinkIntent);
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent FoodIntent = new Intent(MainActivity.this, FoodDetailMenu.class);
+                startActivity(FoodIntent);
             }
         });
     }

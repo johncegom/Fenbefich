@@ -2,4 +2,6 @@
     <string name="app_name">Firebasegogo</string>
     <string name="firsttextview">Name</string>
     <string name="firstdesc">Description</string>
+    <string name="foodbtn">Food</string>
+    <string name="drinkbtn">Drink</string>
 </resources>
