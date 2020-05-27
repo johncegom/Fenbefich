@@ -29,17 +29,6 @@ public class DetailMenu extends AppCompatActivity {
         setContentView(R.layout.activity_detail_menu);
         myListView = (ListView) findViewById(R.id.drink_menu);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/Drinks");
-//        ValueEventListener eventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    String temp_name = ds.getValue(String.class);
-//                    Names.add(temp_name);
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {}
-//        };
         databaseReference.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(final com.google.firebase.database.DataSnapshot dataSnapshot) {
