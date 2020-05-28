@@ -10,9 +10,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="60dp"
-            android:padding="5dp"/>
+            android:layout_width="111dp"
+            android:layout_height="84dp"
+            android:padding="5dp" />
 
         <TextView
             android:id="@+id/namefield"
@@ -32,5 +32,7 @@
             android:layout_toEndOf="@+id/imageView"
             android:text="@string/firstdesc"
             android:textSize="10dp" />
+
     </RelativeLayout>
+
 </LinearLayout>

@@ -4,4 +4,6 @@
     <string name="firstdesc">Description</string>
     <string name="foodbtn">Food</string>
     <string name="drinkbtn">Drink</string>
+    <string name="editbtn">Edit</string>
+    <string name="delbtn">Delete</string>
 </resources>
