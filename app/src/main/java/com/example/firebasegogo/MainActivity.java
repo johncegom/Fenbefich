@@ -19,14 +19,16 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent DrinkIntent = new Intent(MainActivity.this, DrinkDetailMenu.class);
+                Intent DrinkIntent = new Intent(MainActivity.this, DetailMenu.class);
+                DrinkIntent.putExtra("name", "Drinks");
                 startActivity(DrinkIntent);
             }
         });
         btn2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent FoodIntent = new Intent(MainActivity.this, FoodDetailMenu.class);
+                Intent FoodIntent = new Intent(MainActivity.this, DetailMenu.class);
+                FoodIntent.putExtra("name", "Food");
                 startActivity(FoodIntent);
             }
         });

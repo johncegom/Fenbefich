@@ -1,10 +1,10 @@
 package com.example.firebasegogo;
 
-public class Food {
+public class Item {
     private String Price;
     private String Name;
     private String Image;
-    public Food() {
+    public Item() {
         // empty default constructor, necessary for Firebase to be able to deserialize users
     }
 
