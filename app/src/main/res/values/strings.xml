@@ -6,4 +6,6 @@
     <string name="drinkbtn">Drink</string>
     <string name="editbtn">Edit</string>
     <string name="delbtn">Delete</string>
+    <string name="newbtn">New</string>
+    <string name="donebtn">Done</string>
 </resources>
