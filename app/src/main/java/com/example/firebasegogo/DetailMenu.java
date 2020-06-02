@@ -45,31 +45,35 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DetailMenu extends AppCompatActivity {
-    ListView myListView;
     ArrayList<Item> item = new ArrayList<>();
     ArrayListAdapter listviewAdapter;
     StorageReference folder;
     DatabaseReference databaseReference;
     String MenuType;
-    String[] key = new String[1];
+
     //var for uploading image
-    Item myitem1;
     int flag = 0;
     final int PICK_IMAGE_REQUEST = 71;
-    Uri filePath;
+    Uri imagefilePath;
     ImageView imgView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_menu);
-        myListView = (ListView) findViewById(R.id.menu);
+
+        //fetch data to listview based on button label
+        ListView myListView = (ListView) findViewById(R.id.menu);
         Bundle extras = getIntent().getExtras();
         MenuType = extras.getString("name");
-        folder = FirebaseStorage.getInstance().getReference().child("FoodImages");
-        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/"+ MenuType +"");
-        fetchListview();
+        folder = FirebaseStorage.getInstance().getReference().child(MenuType);
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/"+ MenuType);
+        fetchListview(myListView);
+
+        //make context menu for every listview item
         registerForContextMenu(myListView);
     }
+
+    //context menu setting
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -83,26 +87,29 @@ public class DetailMenu extends AppCompatActivity {
         String name = myitem.getName();
         switch (item.getItemId()){
             case R.id.editbtn:
-                showDialog(myitem);
+                showDialog(myitem, "Edit Item");
                 return true;
             case  R.id.delbtn:
-                deleteItem(name);
-                refresh();
+                //delete item from database and image from storage
+                deleteItem(myitem);
                 return true;
             case R.id.newbtn:
+                showDialog(myitem, "Add Item");
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
-    public void deleteItem(String ItemName){
-        Query applesQuery = databaseReference.orderByChild("Name").equalTo(ItemName);
+    public void deleteItem(final Item temp){
+        Query applesQuery = databaseReference.orderByChild("Name").equalTo(temp.getName());
         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
                     appleSnapshot.getRef().removeValue();
                 }
+                deleteFSimg(temp);
+                refresh();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -110,10 +117,29 @@ public class DetailMenu extends AppCompatActivity {
             }
         });
     }
-    public void fetchListview(){
+    public void deleteFSimg(Item temp){
+        StorageReference photoRef = folder.getStorage().getReferenceFromUrl(temp.getImage());
+        try{
+            photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                    Log.d("TAG", "onSuccess: deleted file");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                    Log.d("TAG", "onFailure: did not delete file");
+                }
+            });
+        }catch (Exception e){}
+    }
+    public void fetchListview(final ListView myListView){
         databaseReference.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(final com.google.firebase.database.DataSnapshot dataSnapshot) {
+                item.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Item newItem = ds.getValue(Item.class);
                     item.add(newItem);
@@ -132,67 +158,82 @@ public class DetailMenu extends AppCompatActivity {
         item.clear();
         listviewAdapter.notifyDataSetChanged();
     }
-    public void showDialog(final Item myitem){
+    public void showDialog(final Item item, String actvty){
+        final Item myitem = item;
         final Dialog dialog = new Dialog(DetailMenu.this);
-        dialog.setTitle("Edit Box");
         dialog.setContentView(R.layout.dialog);
         TextView textView = (TextView) dialog.findViewById(R.id.txtmessage);
-        textView.setText("Update item");
+        textView.setText(actvty);
         //get layout
         final EditText nameText = (EditText) dialog.findViewById(R.id.txtName);
         final EditText priceText = (EditText) dialog.findViewById(R.id.txtPrice);
+        Button btn = (Button) dialog.findViewById(R.id.btdone);
         imgView = (ImageView) dialog.findViewById(R.id.txtImg);
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag = 1;
                 chooseImage();
             }
         });
         //prepare data for editting
-        final String image = myitem.getImage();
-        final String queryname = myitem.getName();
         //set view
-        nameText.setText(queryname);
-        priceText.setText(myitem.getPrice());
-        Picasso.get().load(myitem.getImage()).into(imgView);
-
-        //edit firebase on button click
-        Button btn = (Button) dialog.findViewById(R.id.btdone);
-        btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                            Item newItem = ds.getValue(Item.class);
-                            if (newItem.getName().equals(queryname)){
-                                key[0] = ds.getKey();
+        if (actvty.equals("Edit Item")) {
+            final String image = myitem.getImage();
+            final String queryname = myitem.getName();
+            nameText.setText(queryname);
+            priceText.setText(myitem.getPrice());
+            Picasso.get().load(myitem.getImage()).into(imgView);
+            //edit firebase on button click
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        String[] key = new String[1];
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                Item newItem = ds.getValue(Item.class);
+                                if (newItem.getName().equals(queryname)) {
+                                    key[0] = ds.getKey();
+                                }
                             }
+                            Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image);
+                            if (flag == 0) {
+                                hashingtoDB(newitem, key[0]);
+                            }
+                            if (flag == 1) {
+                                deleteFSimg(newitem);
+                                uploadImage(newitem, key[0]);
+                            }
+                            refresh();
+                            dialog.dismiss();
                         }
-                        myitem1 = new Item(nameText.getText().toString(), priceText.getText().toString(), image);
-                        if (flag == 0){
-                            Map<String, Object> postValues = myitem1.toMap();
-                            Map<String, Object> childUpdates = new HashMap<>();
-                            childUpdates.put("/" + key[0], postValues);
-                            databaseReference.updateChildren(childUpdates);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("TAG", "onCancelled", databaseError.toException());
                         }
-                        if (flag == 1){
-                            uploadImage();
-                        }
-                        refresh();
-                        dialog.dismiss();
+                    });
+                }
+            });
+        }
+        if(actvty.equals("Add Item")){
+            btn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    String image = "https://firebasestorage.googleapis.com/v0/b/fir-testing-d686c.appspot.com/o/brb05.19.plus_.jpg?alt=media&token=091d750d-34f1-4e0a-928f-df2f5429e50e";
+                    String mykey = databaseReference.push().getKey();
+                    Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image);
+                    if (flag == 0) {
+                        hashingtoDB(newitem, mykey);
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w("TAG", "onCancelled", databaseError.toException());
+                    if (flag == 1) {
+                        uploadImage(newitem, mykey);
                     }
-                });
-                //Toast.makeText(DetailMenu.this, queryname, Toast.LENGTH_LONG).show();
-
-            }
-        });
+                    refresh();
+                    dialog.dismiss();
+                }
+            });
+        }
         dialog.show();
     }
 
@@ -208,10 +249,11 @@ public class DetailMenu extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null )
         {
-            filePath = data.getData();
+            imagefilePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagefilePath);
                 imgView.setImageBitmap(bitmap);
+                flag = 1;
             }
             catch (IOException e)
             {
@@ -219,15 +261,15 @@ public class DetailMenu extends AppCompatActivity {
             }
         }
     }
-    private void uploadImage() {
+    private void uploadImage(final Item temp, final String key) {
 
-        if(filePath != null)
+        if(imagefilePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            final StorageReference ref = folder.child("/"+ UUID.randomUUID().toString());
-            ref.putFile(filePath)
+            final StorageReference ref = folder.child("/"+ temp.getName());
+            ref.putFile(imagefilePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -236,11 +278,8 @@ public class DetailMenu extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     progressDialog.dismiss();
                                     Toast.makeText(DetailMenu.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                                    myitem1.setImage(String.valueOf(uri));
-                                    Map<String, Object> postValues = myitem1.toMap();
-                                    Map<String, Object> childUpdates = new HashMap<>();
-                                    childUpdates.put("/" + key[0], postValues);
-                                    databaseReference.updateChildren(childUpdates);
+                                    temp.setImage(String.valueOf(uri));
+                                    hashingtoDB(temp, key);
                                 }
                             });
                             flag = 0;
@@ -262,6 +301,12 @@ public class DetailMenu extends AppCompatActivity {
                         }
                     });
         }
+    }
+    private void hashingtoDB(Item temp, String key){
+        Map<String, Object> postValues = temp.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/" + key, postValues);
+        databaseReference.updateChildren(childUpdates);
     }
 }
 
