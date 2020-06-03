@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +52,8 @@ public class DetailMenu extends AppCompatActivity {
     DatabaseReference databaseReference;
     String MenuType;
 
+    FloatingActionButton fab;
+
     //var for uploading image
     int flag = 0;
     final int PICK_IMAGE_REQUEST = 71;
@@ -60,6 +63,16 @@ public class DetailMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_menu);
+
+        //map fab button
+        fab = (FloatingActionButton) findViewById(R.id.floating_action_button);
+        final Item myitem = null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(myitem, "Add Item");
+            }
+        });
 
         //fetch data to listview based on button label
         ListView myListView = (ListView) findViewById(R.id.menu);
