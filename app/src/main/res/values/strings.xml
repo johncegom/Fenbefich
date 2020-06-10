@@ -8,4 +8,6 @@
     <string name="delbtn">Delete</string>
     <string name="newbtn">New</string>
     <string name="donebtn">Done</string>
+    <string name="app_label">Done</string>
+    <string name="search_hint">Done</string>
 </resources>

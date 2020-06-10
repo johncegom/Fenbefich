@@ -1,7 +1,8 @@
 package com.example.firebasegogo;
-
+//import android.support.v7.app.ActionBarActivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -86,6 +88,26 @@ public class DetailMenu extends AppCompatActivity {
         registerForContextMenu(myListView);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listviewAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
     //context menu setting
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -105,9 +127,6 @@ public class DetailMenu extends AppCompatActivity {
             case  R.id.delbtn:
                 //delete item from database and image from storage
                 deleteItem(myitem);
-                return true;
-            case R.id.newbtn:
-                showDialog(myitem, "Add Item");
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -321,5 +340,6 @@ public class DetailMenu extends AppCompatActivity {
         childUpdates.put("/" + key, postValues);
         databaseReference.updateChildren(childUpdates);
     }
+
 }
 

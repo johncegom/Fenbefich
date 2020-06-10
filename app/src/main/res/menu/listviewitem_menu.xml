@@ -8,7 +8,4 @@
     <item
         android:id="@+id/delbtn"
         android:title="@string/delbtn" />
-    <item
-        android:id="@+id/newbtn"
-        android:title="@string/newbtn" />
 </menu>
