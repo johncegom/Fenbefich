@@ -61,7 +61,7 @@ public class ArrayListAdapter extends ArrayAdapter<Item> implements Filterable {
         }
         // Populate the data from the data object via the viewHolder object
         // into the template view.
-        Picasso.get().load(item.getImage()).into(viewHolder.img);
+        Picasso.get().load(item.getImage()).fit().into(viewHolder.img);
         viewHolder.price.setText(item.getPrice());
         viewHolder.name.setText(item.getName());
         // Return the completed view to render on screen

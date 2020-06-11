@@ -1,8 +1,10 @@
 package com.example.firebasegogo;
 //import android.support.v7.app.ActionBarActivity;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,9 +48,13 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-public class DetailMenu extends AppCompatActivity {
+public class DetailMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    //navbar
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+
+    //fetch data based on button clicked
     ArrayList<Item> item = new ArrayList<>();
     ArrayListAdapter listviewAdapter;
     StorageReference folder;
@@ -65,7 +72,14 @@ public class DetailMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_menu);
-
+        //navbar hide and see
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
+        navigationView.setNavigationItemSelectedListener(this);
         //map fab button
         fab = (FloatingActionButton) findViewById(R.id.floating_action_button);
         final Item myitem = null;
@@ -88,6 +102,7 @@ public class DetailMenu extends AppCompatActivity {
         registerForContextMenu(myListView);
     }
 
+    //search bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu,menu);
@@ -107,7 +122,6 @@ public class DetailMenu extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
-
     //context menu setting
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -142,6 +156,7 @@ public class DetailMenu extends AppCompatActivity {
                 }
                 deleteFSimg(temp);
                 refresh();
+                Toast.makeText(DetailMenu.this, "Delete successfully", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -341,5 +356,33 @@ public class DetailMenu extends AppCompatActivity {
         databaseReference.updateChildren(childUpdates);
     }
 
+     @Override
+     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+         return super.onOptionsItemSelected(item);
+     }
+     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.homeview:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.foodview:
+                Intent FoodIntent = new Intent(this, DetailMenu.class);
+                FoodIntent.putExtra("name", "Food");
+                startActivity(FoodIntent);
+                return true;
+            case R.id.drinkview:
+                Intent DrinkIntent = new Intent(this, DetailMenu.class);
+                DrinkIntent.putExtra("name", "Drinks");
+                startActivity(DrinkIntent);
+                return true;
+            default:
+                return true;
+        }
+    }
 }
 
