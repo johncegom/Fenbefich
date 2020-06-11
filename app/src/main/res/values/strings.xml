@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FoodstallM</string>
+    <string name="app_name">Fenbefich</string>
     <string name="firsttextview">Name</string>
     <string name="firstdesc">Description</string>
     <string name="foodbtn">Food</string>
