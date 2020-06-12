@@ -5,43 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnCount="2"
-        android:rowCount="3"
+        android:layout_height="wrap_content"
         android:alignmentMode="alignMargins"
+        android:columnCount="2"
         android:columnOrderPreserved="false"
-        >
+        android:rowCount="3">
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/btnDrinks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnDrinks"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="16dp"
-            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
-            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
 
             >
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:padding="16dp"
-                >
+                android:orientation="vertical"
+                android:padding="16dp">
+
                 <ImageView
-                    android:src="@drawable/ic_local_bar_24px"
                     android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_local_bar_24px" />
+
                 <TextView
-                    android:textSize="18dp"
-                    android:text="@string/drinkbtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/drinkbtn"
+                    android:textSize="18dp" />
 
             </LinearLayout>
 
@@ -49,13 +52,13 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnFood"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="16dp"
-            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
-            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
 
             >
 
@@ -84,69 +87,73 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_columnWeight="1"
+            android:id="@+id/btnRevenue"
             android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="16dp"
-            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
-            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
 
 
             >
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:padding="16dp"
-                >
+                android:orientation="vertical"
+                android:padding="16dp">
+
                 <ImageView
-                    android:src="@drawable/ic_add_black_24dp"
                     android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_graph" />
+
                 <TextView
-                    android:textSize="18dp"
-                    android:text="Test"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    tools:text="@string/revenuebtn" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="16dp"
-            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
-            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
 
             >
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:padding="16dp"
-                >
+                android:orientation="vertical"
+                android:padding="16dp">
+
                 <ImageView
-                    android:src="@drawable/ic_add_black_24dp"
                     android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_add_black_24dp" />
+
                 <TextView
-                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Test"
                     android:textAlignment="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="18dp" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
 
 
     </GridLayout>
