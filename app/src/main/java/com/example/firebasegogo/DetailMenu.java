@@ -1,13 +1,17 @@
 package com.example.firebasegogo;
 //import android.support.v7.app.ActionBarActivity;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -94,12 +98,23 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
         ListView myListView = (ListView) findViewById(R.id.menu);
         Bundle extras = getIntent().getExtras();
         MenuType = extras.getString("name");
+        //set action bar title
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(MenuType + " Tab");
         folder = FirebaseStorage.getInstance().getReference().child(MenuType);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/"+ MenuType);
         fetchListview(myListView);
 
         //make context menu for every listview item
         registerForContextMenu(myListView);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+            }
+        };
+
     }
 
     //search bar
@@ -383,6 +398,11 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
             default:
                 return true;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
 
