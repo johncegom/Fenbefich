@@ -3,4 +3,5 @@
     <item android:id="@+id/homeview" android:title="Home" android:icon="@drawable/ic_houses" />
     <item android:id="@+id/foodview" android:title="Food" android:icon="@drawable/ic_fastfood_24px"/>
     <item android:id="@+id/drinkview" android:title="Drink" android:icon="@drawable/ic_local_bar_24px"/>
+    <item android:id="@+id/logout" android:title="Logout" android:icon="@drawable/ic_logout"/>
 </menu>

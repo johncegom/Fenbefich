@@ -19,7 +19,7 @@
             android:pivotX="50%"
             android:pivotY="100%"
             android:startOffset="700"
-            android:duration="400"
+            android:duration="1000"
             android:fillBefore="false" />
         <rotate
             android:fromDegrees="0"

@@ -11,12 +11,14 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private CardView btnDrinks;
     private CardView btnFood;
+    private CardView btnAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnDrinks = (CardView) findViewById(R.id.btnDrinks);
         btnFood = (CardView) findViewById(R.id.btnFood);
+        btnAccount = (CardView) findViewById(R.id.btnAccount);
         btnDrinks.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -31,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent FoodIntent = new Intent(MainActivity.this, DetailMenu.class);
                 FoodIntent.putExtra("name", "Food");
                 startActivity(FoodIntent);
+            }
+        });
+        btnAccount.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent AccountEditIntent = new Intent(MainActivity.this, DetailMenu.class);
+                startActivity(AccountEditIntent);
             }
         });
     }

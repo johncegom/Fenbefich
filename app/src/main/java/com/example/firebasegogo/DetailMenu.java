@@ -395,6 +395,10 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                 DrinkIntent.putExtra("name", "Drinks");
                 startActivity(DrinkIntent);
                 return true;
+            case R.id.logout:
+                Intent LogoutIntent = new Intent(this, SplashScreenActivity.class);
+                startActivity(LogoutIntent);
+                return true;
             default:
                 return true;
         }
