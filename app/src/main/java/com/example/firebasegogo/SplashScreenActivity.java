@@ -114,6 +114,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     }
                 }
                 if (flag == 1){
+                    login_id.setText("");
                     //store session id
                     Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                     startActivity(intent);

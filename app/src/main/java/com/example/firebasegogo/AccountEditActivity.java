@@ -38,7 +38,7 @@ public class AccountEditActivity extends AppCompatActivity {
         conf = (Button) findViewById(R.id.confirm);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         session_id = pref.getString("session ID", null);
-        Toast.makeText(this, session_id, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, session_id, Toast.LENGTH_SHORT).show();
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/Users");
         fetchData(session_id);
     }

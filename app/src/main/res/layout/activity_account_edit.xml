@@ -14,8 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/user_id"
@@ -50,6 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Change Password"
+        android:padding="10dp"
+        android:textColor="@drawable/text_color"
+        android:background="@drawable/my_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Confirm"
+        android:background="@drawable/my_btn"
+        android:textColor="@drawable/text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

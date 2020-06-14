@@ -408,7 +408,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                 startActivity(DrinkIntent);
                 return true;
             case R.id.logout:
-                Intent LogoutIntent = new Intent(this, SplashScreenActivity.class);
+                Intent LogoutIntent = new Intent(DetailMenu.this, SplashScreenActivity.class);
                 startActivity(LogoutIntent);
                 return true;
             default:
