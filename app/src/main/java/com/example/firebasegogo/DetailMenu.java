@@ -162,8 +162,8 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
         }
     }
     public void deleteItem(final Item temp){
-        Query applesQuery = databaseReference.orderByChild("Name").equalTo(temp.getName());
-        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query itemQuery = databaseReference.orderByChild("Name").equalTo(temp.getName());
+        itemQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
@@ -381,6 +381,10 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
      @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.account:
+                Intent AccountIntent = new Intent(this, AccountEditActivity.class);
+                startActivity(AccountIntent);
+                return true;
             case R.id.homeview:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

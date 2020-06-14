@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btnAccount.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent AccountEditIntent = new Intent(MainActivity.this, DetailMenu.class);
+                Intent AccountEditIntent = new Intent(MainActivity.this, AccountEditActivity.class);
                 startActivity(AccountEditIntent);
             }
         });

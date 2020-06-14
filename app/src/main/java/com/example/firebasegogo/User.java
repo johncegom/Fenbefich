@@ -25,7 +25,7 @@ public class User {
         result.put("Image", Image);
         return result;
     }
-    public String ID() {
+    public String getID() {
         return ID;
     }
     public String getName() {
