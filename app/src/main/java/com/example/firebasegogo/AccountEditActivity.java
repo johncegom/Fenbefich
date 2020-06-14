@@ -25,10 +25,12 @@ public class AccountEditActivity extends AppCompatActivity {
     Button conf;
     String session_id;
     DatabaseReference databaseReference;
+    ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_edit);
+        img = (ImageView) findViewById(R.id.navava);
         id = (EditText) findViewById(R.id.user_id);
         name = (EditText) findViewById(R.id.username);
         ava = (ImageView) findViewById(R.id.avatar);

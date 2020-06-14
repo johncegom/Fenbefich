@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,7 +58,8 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
     //navbar
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-
+    ImageView nav_ava;
+    TextView nav_name;
     //fetch data based on button clicked
     ArrayList<Item> item = new ArrayList<>();
     ArrayListAdapter listviewAdapter;
@@ -76,14 +78,6 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_menu);
-        //navbar hide and see
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
-        navigationView.setNavigationItemSelectedListener(this);
         //map fab button
         fab = (FloatingActionButton) findViewById(R.id.floating_action_button);
         final Item myitem = null;
@@ -108,13 +102,27 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
         //make context menu for every listview item
         registerForContextMenu(myListView);
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        //navbar hide and see
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
+        View hView =  navigationView.getHeaderView(0);
+        navigationView.setNavigationItemSelectedListener(this);
+        nav_ava = (ImageView) hView.findViewById(R.id.navava);
+        nav_name = (TextView) hView.findViewById(R.id.navname);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        nav_name.setText(pref.getString("session Name", null));
+        nav_ava.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void handleOnBackPressed() {
-                // Handle the back button event
+            public void onClick(View v) {
+                Intent AccountIntent = new Intent(DetailMenu.this, AccountEditActivity.class);
+                startActivity(AccountIntent);
             }
-        };
-
+        });
+        Picasso.get().load(pref.getString("session Ava", null)).fit().into(nav_ava);
     }
 
     //search bar
@@ -370,7 +378,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
         childUpdates.put("/" + key, postValues);
         databaseReference.updateChildren(childUpdates);
     }
-
+    //enable nav drawer on action bar
      @Override
      public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)){
