@@ -94,7 +94,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
-                    constraintLayout.animate().translationYBy(-320f).setDuration(2000);
+                    constraintLayout.animate().translationYBy(-650f).setDuration(2000);
                 };
             };
             handler.postDelayed(r, 2000);
@@ -102,7 +102,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             calledAlready1 = true;
         }
         else {
-            constraintLayout.animate().translationYBy(-320f);
+            constraintLayout.animate().translationYBy(-650f);
             linearLayout.setVisibility(View.VISIBLE);
         }
         //Validate login
