@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
-                    tools:text="@string/revenuebtn" />
+                    android:text="@string/revenuebtn" />
 
             </LinearLayout>
 
