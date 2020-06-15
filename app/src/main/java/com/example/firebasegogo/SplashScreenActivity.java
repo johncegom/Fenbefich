@@ -30,13 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SplashScreenActivity extends AppCompatActivity {
     ConstraintLayout constraintLayout;
     LinearLayout linearLayout;
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            linearLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    Handler handler;
+    Runnable runnable;
     Button login_button;
     Animation topAnimation, bottomAnimation;
     ImageView logoSplashScreen;
@@ -53,6 +48,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.splash_screen);
+
+        handler =  new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                linearLayout.setVisibility(View.VISIBLE);
+            }
+        };
 
         //preload part of data
         if (!calledAlready)

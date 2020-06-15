@@ -1,17 +1,14 @@
 package com.example.firebasegogo;
 //import android.support.v7.app.ActionBarActivity;
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,7 +19,6 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -50,11 +46,10 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DetailMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //navbar
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -118,7 +113,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
         nav_ava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent AccountIntent = new Intent(DetailMenu.this, AccountEditActivity.class);
+                Intent AccountIntent = new Intent(DetailMenuActivity.this, AccountEditActivity.class);
                 startActivity(AccountIntent);
             }
         });
@@ -179,7 +174,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                 }
                 deleteFSimg(temp);
                 refresh();
-                Toast.makeText(DetailMenu.this, "Delete successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailMenuActivity.this, "Delete successfully", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -214,7 +209,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                     Item newItem = ds.getValue(Item.class);
                     item.add(newItem);
                 }
-                listviewAdapter = new ArrayListAdapter(DetailMenu.this, item);
+                listviewAdapter = new ArrayListAdapter(DetailMenuActivity.this, item);
                 myListView.setAdapter(listviewAdapter);
             }
 
@@ -230,7 +225,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
     }
     public void showDialog(final Item item, String actvty){
         final Item myitem = item;
-        final Dialog dialog = new Dialog(DetailMenu.this);
+        final Dialog dialog = new Dialog(DetailMenuActivity.this);
         dialog.setContentView(R.layout.dialog);
         TextView textView = (TextView) dialog.findViewById(R.id.txtmessage);
         textView.setText(actvty);
@@ -347,7 +342,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(DetailMenu.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DetailMenuActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                                     temp.setImage(String.valueOf(uri));
                                     hashingtoDB(temp, key);
                                 }
@@ -359,7 +354,7 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(DetailMenu.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailMenuActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -398,12 +393,12 @@ public class DetailMenu extends AppCompatActivity implements NavigationView.OnNa
                 startActivity(intent);
                 return true;
             case R.id.foodview:
-                Intent FoodIntent = new Intent(this, DetailMenu.class);
+                Intent FoodIntent = new Intent(this, DetailMenuActivity.class);
                 FoodIntent.putExtra("name", "Food");
                 startActivity(FoodIntent);
                 return true;
             case R.id.drinkview:
-                Intent DrinkIntent = new Intent(this, DetailMenu.class);
+                Intent DrinkIntent = new Intent(this, DetailMenuActivity.class);
                 DrinkIntent.putExtra("name", "Drinks");
                 startActivity(DrinkIntent);
                 return true;

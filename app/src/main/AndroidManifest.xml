@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailMenu"
+            android:name=".DetailMenuActivity"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainActivity"
