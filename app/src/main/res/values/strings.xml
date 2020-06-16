@@ -13,6 +13,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="revenuebtn">Revenue</string>
+    <string name="accountbtn">Account</string>
     <string name="title_activity_account_edit">AccountEditActivity</string>
     <!--
     This string is used for square devices and overridden by hello_world in
@@ -31,4 +32,5 @@
     <string name="cartbtn">Cart</string>
     <string name="loginbtn">Login</string>
     <string name="remembermebtn">Remember me?</string>
+    <string name="slogan">You Sell We Manage!</string>
 </resources>
