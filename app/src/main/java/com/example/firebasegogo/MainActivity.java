@@ -4,13 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private CardView btnDrinks;
     private CardView btnFood;
     private CardView btnAccount;
+    private TextView textViewWelcome;
+    private Button btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +25,21 @@ public class MainActivity extends AppCompatActivity {
         btnDrinks = (CardView) findViewById(R.id.btnDrinks);
         btnFood = (CardView) findViewById(R.id.btnFood);
         btnAccount = (CardView) findViewById(R.id.btnAccount);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
+
+        //Set welcome text
+        SharedPreferences pref = getSharedPreferences("MyPref", 0);
+        textViewWelcome.setText("Hello, " + pref.getString("session Name", null));
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent LogoutIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
+                startActivity(LogoutIntent);
+            }
+        });
+
         btnDrinks.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
