@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -42,9 +43,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,15 +60,18 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
     TextView nav_name;
     //fetch data based on button clicked
     ArrayList<Item> item = new ArrayList<>();
+    ArrayList<Item> cart;
     ArrayListAdapter listviewAdapter;
     StorageReference folder;
     DatabaseReference databaseReference;
+    DatabaseReference databaseReferenceOrder;
     String MenuType;
 
     FloatingActionButton fab;
 
     //var for uploading image
     int flag = 0;
+    int flag1 = 0;
     final int PICK_IMAGE_REQUEST = 71;
     Uri imagefilePath;
     ImageView imgView;
@@ -92,6 +98,7 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
         actionBar.setTitle(MenuType + " Tab");
         folder = FirebaseStorage.getInstance().getReference().child(MenuType);
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/"+ MenuType);
+        databaseReferenceOrder = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/Orders");
         fetchListview(myListView);
 
         //make context menu for every listview item
@@ -118,6 +125,40 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
             }
         });
         Picasso.get().load(pref.getString("session Ava", null)).into(nav_ava);
+
+        //Item tap -> Add to cart
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Item item = (Item) parent.getItemAtPosition(position);
+                databaseReferenceOrder.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Cart cart = ds.getValue(Cart.class);
+                            if(cart.getName().equals(item.getName())){
+                                flag1 = 1;
+                                Integer quant = cart.getQuantity() + 1;
+                                databaseReferenceOrder.child(ds.getKey()).child("Quantity").setValue(quant);
+                                Toast.makeText(DetailMenuActivity.this, "Quantity +1", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        if (flag1 == 0){
+                            item.setQuantity(1);
+                            String mykey = databaseReferenceOrder.push().getKey();
+                            hashingtoDB(item, mykey, databaseReferenceOrder);
+                            Toast.makeText(DetailMenuActivity.this, "Added!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                flag1 = 0;
+            }
+        });
     }
 
     //search bar
@@ -263,7 +304,7 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
                                     key[0] = ds.getKey();
                                 }
                             }
-                            Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image);
+                            Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image, MenuType);
                             if (flag == 0) {
                                 hashingtoDB(newitem, key[0]);
                             }
@@ -288,7 +329,7 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
                 public void onClick(View v) {
                     String image = "https://firebasestorage.googleapis.com/v0/b/fir-testing-d686c.appspot.com/o/brb05.19.plus_.jpg?alt=media&token=091d750d-34f1-4e0a-928f-df2f5429e50e";
                     String mykey = databaseReference.push().getKey();
-                    Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image);
+                    Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image, MenuType);
                     if (flag == 0) {
                         hashingtoDB(newitem, mykey);
                     }
@@ -374,12 +415,33 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
         childUpdates.put("/" + key, postValues);
         databaseReference.updateChildren(childUpdates);
     }
+    private void hashingtoDB(Item temp, String key, DatabaseReference data){
+        Map<String, Object> postValues = temp.toMap1();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/" + key, postValues);
+        data.updateChildren(childUpdates);
+    }
     //enable nav drawer on action bar
      @Override
      public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         int id = item.getItemId();
+
         if (actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true;
         }
+         if (id == R.id.cart_menu) {
+
+             SharedPreferences Prefs =  getSharedPreferences("MyPref", 0);
+             SharedPreferences.Editor prefsEditor = Prefs.edit();
+             Gson gson = new Gson();
+             String json = gson.toJson(cart);
+             prefsEditor.putString("Cart Items", json);
+             prefsEditor.commit();
+
+             Intent CartIntent = new Intent(this, CartActivity.class);
+             startActivity(CartIntent);
+             return true;
+         }
          return super.onOptionsItemSelected(item);
      }
      @Override

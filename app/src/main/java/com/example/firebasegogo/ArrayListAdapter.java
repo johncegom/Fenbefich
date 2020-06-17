@@ -98,7 +98,7 @@ public class ArrayListAdapter extends ArrayAdapter<Item> implements Filterable {
                 {
                     if(filterList.get(i).getName().toUpperCase().contains(constraint))
                     {
-                        Item p=new Item(filterList.get(i).getName(),filterList.get(i).getPrice(), filterList.get(i).getImage());
+                        Item p=new Item(filterList.get(i).getName(),filterList.get(i).getPrice(), filterList.get(i).getImage(), filterList.get(i).getType());
 
                         filters.add(p);
                     }

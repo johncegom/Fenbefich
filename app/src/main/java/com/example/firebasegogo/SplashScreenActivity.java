@@ -134,7 +134,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     public boolean validate(final String id, final String passwordd){
         databaseReference.child("Users").addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             SharedPreferences settings = getSharedPreferences("MyPref",0);
-            SharedPreferences.Editor editor = settings.edit();
             @Override
             public void onDataChange(final com.google.firebase.database.DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
