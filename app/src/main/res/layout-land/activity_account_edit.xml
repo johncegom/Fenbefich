@@ -133,7 +133,7 @@
         app:layout_constraintVertical_bias="0.597">
 
         <Button
-            android:id="@+id/confirm"
+            android:id="@+id/confir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

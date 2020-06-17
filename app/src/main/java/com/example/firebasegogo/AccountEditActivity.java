@@ -53,7 +53,7 @@ public class AccountEditActivity extends AppCompatActivity {
     StorageReference folder;
     ImageView img;
     Dialog dialog;
-    User user;
+    User user = new User();
     int flag = 0;
     int flag1 = 0;
     final int PICK_IMAGE_REQUEST = 71;
@@ -68,7 +68,7 @@ public class AccountEditActivity extends AppCompatActivity {
         ava = (ImageView) findViewById(R.id.avatar);
         pwd = (TextView) findViewById(R.id.pwd_change);
         mail = (EditText) findViewById(R.id.user_mail);
-        conf = (Button) findViewById(R.id.confirm);
+        conf = (Button) findViewById(R.id.confir);
         bac = (Button) findViewById(R.id.bacc);
         SharedPreferences settings = getSharedPreferences("MyPref",0);
         session_id = settings.getString("session ID", null);
@@ -76,6 +76,7 @@ public class AccountEditActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com/Users");
         folder = FirebaseStorage.getInstance().getReference().child("Users");
         fetchData(session_id);
+
         bac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,11 +242,7 @@ public class AccountEditActivity extends AppCompatActivity {
                         user = newUser;
                     }
                 }
-                id.setText(user.getID());
-                name.setText(user.getName());
-                Picasso.get().load(user.getImage()).into(ava);
-                avalink = user.getImage();
-                mail.setText(user.getEmail());
+                assignData();
             }
 
             @Override
@@ -253,6 +250,13 @@ public class AccountEditActivity extends AppCompatActivity {
                 Log.w("TAG", "loadUser:onCancelled", databaseError.toException());
             }
         });
+    }
+    public void assignData(){
+        id.setText(user.getID());
+        name.setText(user.getName());
+        Picasso.get().load(user.getImage()).into(ava);
+        avalink = user.getImage();
+        mail.setText(user.getEmail());
     }
     private void hashingtoDB(User temp, String key){
         Map<String, Object> postValues = temp.toMap();
@@ -299,6 +303,7 @@ public class AccountEditActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     User newUser = ds.getValue(User.class);
+                    assert newUser != null;
                     if (newUser.getID().equals(id.getText().toString())) {
                         if(oldpass.equals(newUser.getPassword())){
                             SharedPreferences.Editor editor = settings.edit();;
@@ -321,10 +326,11 @@ public class AccountEditActivity extends AppCompatActivity {
             }
         });
     }
-    public void clear(){
-        id.getText().clear();
-        name.getText().clear();
-        avalink = "";
-        mail.getText().clear();
-    }
+//    public void clear(){
+//        id.getText().clear();
+//        name.getText().clear();
+//        avalink = "";
+//        mail.getText().clear();
+//    }
+
 }

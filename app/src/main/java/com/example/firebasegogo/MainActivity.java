@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView btnDrinks;
     private CardView btnFood;
     private CardView btnAccount;
+    private CardView btnRevenue;
     private TextView textViewWelcome;
     private Button btnLogout;
     @Override
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btnDrinks = (CardView) findViewById(R.id.btnDrinks);
         btnFood = (CardView) findViewById(R.id.btnFood);
         btnAccount = (CardView) findViewById(R.id.btnAccount);
+        btnRevenue = (CardView) findViewById(R.id.btnRevenue);
         btnLogout = (Button) findViewById(R.id.btnLogout);
         textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
 
@@ -63,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(AccountEditIntent);
             }
         });
-
+        btnRevenue.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent RevenueIntent = new Intent(MainActivity.this, RevenueActivity.class);
+                startActivity(RevenueIntent);
+            }
+        });
     }
     @Override
     public void onBackPressed() {

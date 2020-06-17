@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,9 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,6 @@ public class CartActivity extends AppCompatActivity {
         listViewCart = (ListView) findViewById(R.id.listViewCart);
         btnOrder = (Button) findViewById(R.id.buttonorder);
         SharedPreferences pref = getSharedPreferences("MyPref", 0);
-        Gson gson =new Gson();
-        String json = pref.getString("Cart Items", "");
 
         cartItems = new ArrayList<Cart>();
 
@@ -83,6 +81,7 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
                 startActivity(new Intent(CartActivity.this, MainActivity.class));
+                deleteOrder();
             }
         });
     }
@@ -108,5 +107,9 @@ public class CartActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+    }
+    public void deleteOrder(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://fir-testing-d686c.firebaseio.com");
+        databaseReference.child("Orders").removeValue();
     }
 }
