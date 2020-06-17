@@ -117,7 +117,7 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
                 startActivity(AccountIntent);
             }
         });
-        Picasso.get().load(pref.getString("session Ava", null)).fit().into(nav_ava);
+        Picasso.get().load(pref.getString("session Ava", null)).into(nav_ava);
     }
 
     //search bar
@@ -170,8 +170,8 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
         itemQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                    appleSnapshot.getRef().removeValue();
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    ds.getRef().removeValue();
                 }
                 deleteFSimg(temp);
                 refresh();

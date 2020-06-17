@@ -94,7 +94,7 @@
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/user_pwd"
+            android:id="@+id/user_mail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/et_bg"

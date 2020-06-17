@@ -34,8 +34,8 @@ public class Item {
     public void setImage(String Image){
         this.Image = Image;
     }
-    public void setPrice(String price) {
-        Price = price;
+    public void setPrice(String Price) {
+        this.Price = Price;
     }
 
     public void setName(String name) {

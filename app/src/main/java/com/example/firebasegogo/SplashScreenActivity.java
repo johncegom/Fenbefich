@@ -5,7 +5,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -74,7 +73,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         logoSplashScreen = (ImageView) findViewById(R.id.imageViewSplashScreen);
         appName = (TextView) findViewById(R.id.textViewSplashScreen);
         login_id = (EditText) findViewById(R.id.user_id);
-        password = (EditText) findViewById(R.id.user_pwd);
+        password = (EditText) findViewById(R.id.user_mail);
         login_button = (Button) findViewById(R.id.btn_login);
         cb = (CheckBox) findViewById(R.id.rem_cb);
         SharedPreferences pref = getSharedPreferences("MyPref", 0);
@@ -144,9 +143,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                         flag = 1;
                         //store session id
                         SharedPreferences.Editor editor = settings.edit();;
-                        editor.putString("session ID", login_id.getText().toString());
+                        editor.putString("session ID", newuser.getID());
                         editor.putString("session Name", newuser.getName());
                         editor.putString("session Ava", newuser.getImage());
+                        editor.putString("session Password", newuser.getPassword());
+                        editor.putString("session Email", newuser.getEmail());
                         editor.commit();
                     }
                 }
