@@ -1,3 +1,37 @@
 <resources>
-    <string name="app_name">Firebasegogo</string>
+    <string name="app_name">Fenbefich</string>
+    <string name="firsttextview">Name</string>
+    <string name="firstdesc">Description</string>
+    <string name="foodbtn">Food</string>
+    <string name="drinkbtn">Drink</string>
+    <string name="editbtn">Edit</string>
+    <string name="delbtn">Delete</string>
+    <string name="newbtn">New</string>
+    <string name="donebtn">Done</string>
+    <string name="app_label">Done</string>
+    <string name="search_hint">Done</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="revenuebtn">Revenue</string>
+    <string name="accountbtn">Account</string>
+    <string name="title_activity_account_edit">AccountEditActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="searchbtn">Search</string>
+    <string name="cartbtn">Cart</string>
+    <string name="loginbtn">Login</string>
+    <string name="remembermebtn">Remember me?</string>
+    <string name="slogan">You Sell We Manage!</string>
+    <string name="orderbtn">Order</string>
 </resources>

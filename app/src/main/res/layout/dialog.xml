@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtmessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:hint="Name" />
+
+        <EditText
+            android:id="@+id/txtPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:hint="Price" />
+
+        <ImageView
+            android:id="@+id/txtImg"
+            android:layout_width="150dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#8C7F7F"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_insert_photo_black_24dp" />
+
+        <Button
+            android:id="@+id/btdone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:descendantFocusability="afterDescendants"
+            android:background="@drawable/my_btn"
+            android:textColor="@drawable/text_color"
+            android:layout_marginBottom="20dp"
+            android:text="@string/donebtn" />
+    </LinearLayout>
+</LinearLayout>
