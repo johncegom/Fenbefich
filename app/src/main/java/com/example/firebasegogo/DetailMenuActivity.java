@@ -54,6 +54,7 @@ import java.util.Map;
 
 public class DetailMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //navbar
+    ListView myListView;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     ImageView nav_ava;
@@ -90,7 +91,7 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
         });
 
         //fetch data to listview based on button label
-        ListView myListView = (ListView) findViewById(R.id.menu);
+        myListView = (ListView) findViewById(R.id.menu);
         Bundle extras = getIntent().getExtras();
         MenuType = extras.getString("name");
         //set action bar title
@@ -304,16 +305,27 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
                                     key[0] = ds.getKey();
                                 }
                             }
-                            Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image, MenuType);
-                            if (flag == 0) {
-                                hashingtoDB(newitem, key[0]);
+                            try{
+                                if(priceText.getText().toString() != null && nameText.getText().toString() != null && Integer.parseInt(priceText.getText().toString()) != 0){
+                                    Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image, MenuType);
+                                    if (flag == 0) {
+                                        hashingtoDB(newitem, key[0]);
+                                    }
+                                    if (flag == 1) {
+                                        deleteFSimg(newitem);
+                                        uploadImage(newitem, key[0]);
+                                    }
+                                    fetchListview(myListView);
+                                    dialog.dismiss();
+                                }
+                                else{
+                                    Toast.makeText(DetailMenuActivity.this, "Invalid price!", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            if (flag == 1) {
-                                deleteFSimg(newitem);
-                                uploadImage(newitem, key[0]);
+                            catch (Exception e){
+                                Toast.makeText(DetailMenuActivity.this, "Invalid price!", Toast.LENGTH_SHORT).show();
+                                fetchListview(myListView);
                             }
-                            refresh();
-                            dialog.dismiss();
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
@@ -329,15 +341,25 @@ public class DetailMenuActivity extends AppCompatActivity implements NavigationV
                 public void onClick(View v) {
                     String image = "https://firebasestorage.googleapis.com/v0/b/fir-testing-d686c.appspot.com/o/brb05.19.plus_.jpg?alt=media&token=091d750d-34f1-4e0a-928f-df2f5429e50e";
                     String mykey = databaseReference.push().getKey();
-                    Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image, MenuType);
-                    if (flag == 0) {
-                        hashingtoDB(newitem, mykey);
+                    try {
+                        if (priceText.getText().toString() != null && nameText.getText().toString() != null && Integer.parseInt(priceText.getText().toString()) != 0) {
+                            Item newitem = new Item(nameText.getText().toString(), priceText.getText().toString(), image, MenuType);
+                            if (flag == 0) {
+                                hashingtoDB(newitem, mykey);
+                            }
+                            if (flag == 1) {
+                                uploadImage(newitem, mykey);
+                            }
+                            fetchListview(myListView);
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(DetailMenuActivity.this, "Invalid Price!", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    if (flag == 1) {
-                        uploadImage(newitem, mykey);
+                    catch (Exception e){
+                        Toast.makeText(DetailMenuActivity.this, "Invalid Price!", Toast.LENGTH_SHORT).show();
+                        fetchListview(myListView);
                     }
-                    refresh();
-                    dialog.dismiss();
                 }
             });
         }
